@@ -1,0 +1,29 @@
+{
+  "version": "v1.0.0",
+  "files": {
+    "bill_detector.onnx": {
+      "sha256": "0d341eb54d515ca898540bbc6a94e7ab91bcc0a7efb9133960c6c8da6cbef557",
+      "bytes": 4012018
+    },
+    "bill_reader.onnx": {
+      "sha256": "6db4ab0b800b3aa5123425dd47da317b463821332c311b1a898287764c2efeea",
+      "bytes": 10416147
+    },
+    "bill_reader.chars.json": {
+      "sha256": "4093aa4ec1145fca7e857c551a3af3a1e75e3048bedb44222913fef1e9dbff34",
+      "bytes": 525
+    },
+    "PP-OCRv6_small_det.onnx": {
+      "sha256": "b338e02bf836b2ff90e2faae6ed2d966c3a57b98affcab3e1969de59457ff036",
+      "bytes": 9893093
+    },
+    "PP-OCRv6_small_rec.onnx": {
+      "sha256": "2a698679da2035324c781576bc98d45755de753dc57048ec78d0fbdd0685b23e",
+      "bytes": 21150810
+    },
+    "PP-OCRv6_small_rec.chars.json": {
+      "sha256": "46f800890c516f8a4e9e9d690f1ef9dc8d36782333463363d80307d572acb8be",
+      "bytes": 131073
+    }
+  }
+}

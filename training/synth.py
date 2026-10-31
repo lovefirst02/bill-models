@@ -15,8 +15,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from taipower_bill_ocr.bill_vocabulary import LABELS, READER_CHARSET, normal  # noqa: E402
+from taipower_bill_ocr.bill_vocabulary import LABELS, READER_CHARSET, normal
 
 # Spaces are not read: "634220.0 元" and "634220.0元" are the same to the parser.
 CHARSET = READER_CHARSET

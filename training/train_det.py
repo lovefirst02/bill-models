@@ -4,8 +4,8 @@ A small mobile network with a feature pyramid, in the manner of DBNet but withou
 its threshold branch: it marks the middle of each line, and the box is grown back
 from that. Trained on synth_det.py's pages only: no real bill goes in.
 
-    python training/train_det.py --out tmp/finetune/det1 --steps 20000
-    python training/train_det.py --out tmp/finetune/det2 --steps 25000 --lr 1e-3 --seed 2 --init tmp/finetune/det1/last.pt
+    python training/train_det.py --out out/det1 --steps 20000
+    python training/train_det.py --out out/det2 --steps 25000 --lr 1e-3 --seed 2 --init out/det1/last.pt
 """
 
 from __future__ import annotations
@@ -26,7 +26,6 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader, IterableDataset, get_worker_info
 
 sys.path.insert(0, str(Path(__file__).parent))
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 import synth_det  # noqa: E402
 from taipower_bill_ocr.onnx_ocr import BILL_DETECTOR, boxes_from_map  # noqa: E402
 

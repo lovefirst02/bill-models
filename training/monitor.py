@@ -1,6 +1,6 @@
 """Watch a training run in the browser: loss, accuracy, speed and time left.
 
-    python training/monitor.py tmp/finetune/run2 --steps 30000 --port 8770
+    python training/monitor.py out/run2 --steps 30000 --port 8770
 """
 
 from __future__ import annotations

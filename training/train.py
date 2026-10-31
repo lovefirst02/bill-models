@@ -1,6 +1,6 @@
 """Train the bill digit reader on synthetic crops, on a GPU; export ONNX for local use.
 
-    python training/train.py --out tmp/finetune/run1 --steps 60000
+    python training/train.py --out out/run1 --steps 60000
 """
 
 from __future__ import annotations
