@@ -26,8 +26,8 @@ uv pip install -r pyproject.toml
 
 # 讀字模型：約 85 分鐘（30000 步）
 uv run --no-sync python training/train.py --out out/reader1 --steps 30000
-# 從上一版接著訓練
-uv run --no-sync python training/train.py --out out/reader2 --steps 30000 --init out/reader1/best.pt
+# 從上一版接著訓練（字集變大時，舊字保留原本的輸出權重，新字從頭學）
+uv run --no-sync python training/train.py --out out/reader2 --steps 30000 --lr 3e-4 --init out/reader1/best.pt
 
 # 偵測模型
 uv run --no-sync python training/train_det.py --out out/det1 --steps 20000
@@ -51,10 +51,12 @@ uv run --no-sync python training/monitor.py out/reader1 --steps 30000 --port 877
 
 ### 和主程式的關係
 
-讀字模型要認得的字來自主程式的 `bill_vocabulary.py`，偵測設定來自 `onnx_ocr.py`，所以這裡依賴固定版本的
-`taipower-bill-ocr`（見 `pyproject.toml`）。
+讀字模型要認得的字來自 [bill-reader](https://github.com/lovefirst02/bill-reader) 的 `vocabulary.py`，
+偵測設定來自主程式的 `onnx_ocr.py`，所以這裡依賴固定版本的 `bill-reader` 和 `taipower-bill-ocr`（見 `pyproject.toml`）。
 
-- **新增標籤，字都已學過：** 只改主程式。
+`training/synth.py` 的 `FOCUS` 是比較常抽到的標籤：新加的標籤，和長得像、容易讀混的標籤。
+
+- **新增標籤，字都已學過：** 只改 bill-reader。
 - **標籤有新字：** 更新這裡依賴的版本，重新訓練。
 
 ## 換模型的流程
@@ -71,6 +73,20 @@ uv run --no-sync python training/monitor.py out/reader1 --steps 30000 --port 877
 4. 更新主程式記錄的模型版本和 SHA-256。
 
 ## 版本紀錄
+
+### v1.1.0
+
+讀字模型認得 229 個字，多了「上」「餘」「設」「施」，讀得出「上期預繳餘額」「本期預繳餘額」「本期預繳金額」「公共設施電費」。
+偵測模型和 PP-OCR 模型與 v1.0.0 相同。
+
+| 模型 | 來源 | 合成資料分數 |
+|---|---|---|
+| 讀字 | 第 5 輪，30000 步，學習率 3e-4，接續 v1.0.0（第 2 輪），新標籤和相近標籤多抽 | 準確率約 98.8% |
+
+真實帳單和照片 370 頁，與 v1.0.0 比較：有正確答案的 186 頁、2469 個欄位，讀對從 2404 個變成 2408 個，沒有欄位變差。
+不會再把「本期指數」讀成「本期預繳」。少數低解析度的掃描和照片變差，例如一頁把「流動電費」讀成「流共電費」。
+
+第 4 輪（學習率 5e-4、沒有多抽）在有正確答案的頁面少了 4 個欄位，沒有採用。
 
 ### v1.0.0
 

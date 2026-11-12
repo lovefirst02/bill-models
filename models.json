@@ -1,17 +1,17 @@
 {
-  "version": "v1.0.0",
+  "version": "v1.1.0",
   "files": {
     "bill_detector.onnx": {
       "sha256": "0d341eb54d515ca898540bbc6a94e7ab91bcc0a7efb9133960c6c8da6cbef557",
       "bytes": 4012018
     },
     "bill_reader.onnx": {
-      "sha256": "6db4ab0b800b3aa5123425dd47da317b463821332c311b1a898287764c2efeea",
-      "bytes": 10416147
+      "sha256": "3bdfa960d69bb0b772282f326955781f644a636b9fbdb0b62187eb602a0fae10",
+      "bytes": 10443867
     },
     "bill_reader.chars.json": {
-      "sha256": "4093aa4ec1145fca7e857c551a3af3a1e75e3048bedb44222913fef1e9dbff34",
-      "bytes": 525
+      "sha256": "579f9e062076dea7d6d67e967aaf2bd71895c7a67a1d42256d14d083a0d8ff21",
+      "bytes": 579
     },
     "PP-OCRv6_small_det.onnx": {
       "sha256": "b338e02bf836b2ff90e2faae6ed2d966c3a57b98affcab3e1969de59457ff036",

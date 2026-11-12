@@ -135,6 +135,17 @@ def main() -> None:
     if args.init:
         state = torch.load(args.init, map_location=device)["model"]
         own = model.state_dict()
+        chars_file = args.init.parent / "bill_reader.chars.json"
+        if chars_file.exists() and state["head.weight"].shape != own["head.weight"].shape:
+            # A larger charset: each character the checkpoint knew keeps its output row; new ones start fresh.
+            old_index = {char: index + 1 for index, char in enumerate(json.loads(chars_file.read_text(encoding="utf-8")))}
+            for key in ("head.weight", "head.bias"):
+                rows = own[key].clone()
+                rows[0] = state[key][0]  # the CTC blank
+                for char, index in LOOKUP.items():
+                    if char in old_index:
+                        rows[index] = state[key][old_index[char]]
+                state[key] = rows
         model.load_state_dict({key: value for key, value in state.items() if own[key].shape == value.shape}, strict=False)
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
     schedule = torch.optim.lr_scheduler.OneCycleLR(optimizer, args.lr, total_steps=args.steps - start + 1, pct_start=0.05)

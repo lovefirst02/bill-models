@@ -15,7 +15,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
-from taipower_bill_ocr.bill_vocabulary import LABELS, READER_CHARSET, normal
+from bill_reader.vocabulary import LABELS, READER_CHARSET, normal
 
 # Spaces are not read: "634220.0 元" and "634220.0元" are the same to the parser.
 CHARSET = READER_CHARSET
@@ -102,8 +102,15 @@ def _small(rng: random.Random) -> str:
 _FIELDS = [(_money, 5), (_kwh, 5), (_meter, 2), (_period, 3), (_small, 1)]
 
 
+# Labels added since the last model, and the ones they look like: drawn more often,
+# so the new ones are learned and not mistaken for their neighbours.
+FOCUS = ("公共設施電費", "上期預繳餘額", "本期預繳餘額", "本期預繳金額", "流動電費", "分攤公共電費",
+         "本期預繳", "本期指數", "上期指數", "電費金額")
+assert set(FOCUS) <= set(LABELS)
+
+
 def _label(rng: random.Random) -> str:
-    label = rng.choice(LABELS)
+    label = rng.choice(FOCUS) if rng.random() < 0.15 else rng.choice(LABELS)
     if rng.random() < 0.25:
         label = label.replace("(", "（").replace(")", "）")
     style = rng.random()
